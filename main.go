@@ -31,7 +31,7 @@ func main() {
 		return
 	}
 
-	// check for SUPER METROID
+	// check for rom header name
 	hdrName := string(b[M3_ROM_HDR_NAME_LOC:M3_ROM_HDR_NAME_LOC + 21])
 	fmt.Printf("header name: '%s'\n", hdrName)
 	if hdrName != M3_ROM_HDR_NAME {
@@ -59,5 +59,5 @@ func main() {
 		<- md5Check
 	} ()
 
-
+	
 }
