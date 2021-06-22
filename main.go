@@ -11,15 +11,31 @@ import (
 
 
 const (
-	SM3_ROM_MD5 = "0x21f3e98df4780ee1c667b84e57d88675"
-	SM3_ROM_NAME = "Super Metroid (JU) [!].smc"
+	M3_ROM_MD5 = "0x21f3e98df4780ee1c667b84e57d88675"
+	M3_ROM_NAME = "Super Metroid (JU) [!].smc"
+
+	M3_ROM_HDR_NAME_LOC = 0x7FC0
+	M3_ROM_HDR_NAME = "Super Metroid        "
+
 )
 
-
 func main() {
-	b, err := ioutil.ReadFile(SM3_ROM_NAME)
+	b, err := ioutil.ReadFile(M3_ROM_NAME)
 	if err != nil {
 		fmt.Printf(err.Error())
+		return
+	}
+	fmt.Printf("'%s' %d bytes\n", M3_ROM_NAME, len(b))
+	if len(b) < 2 << 20 {
+		fmt.Printf("'%s' is to small\n", M3_ROM_NAME)
+		return
+	}
+
+	// check for SUPER METROID
+	hdrName := string(b[M3_ROM_HDR_NAME_LOC:M3_ROM_HDR_NAME_LOC + 21])
+	fmt.Printf("header name: '%s'\n", hdrName)
+	if hdrName != M3_ROM_HDR_NAME {
+		fmt.Println("incorrect header name in rom")
 		return
 	}
 
@@ -32,12 +48,10 @@ func main() {
 		for _, v := range sum {
 			s += fmt.Sprintf("%02x", v)
 		}
-		if s != SM3_ROM_MD5 {
-			fmt.Printf("\n'%s' !=\n'%s' rom md5 mismatch!\n", s, SM3_ROM_MD5)
+		if s != M3_ROM_MD5 {
+			fmt.Printf("\n'%s' !=\n'%s' rom md5 mismatch!\n", s, M3_ROM_MD5)
 			md5Check <- false
 			panic("bad input rom file")
-		} else {
-			fmt.Println("md5 all good")
 		}
 		md5Check <- true
 	} ()
@@ -46,5 +60,4 @@ func main() {
 	} ()
 
 
-	
 }
