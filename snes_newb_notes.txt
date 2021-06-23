@@ -5,5 +5,6 @@ https://metroidconstruction.com/SMMM/#banks
 http://patrickjohnston.org/ASM/ROM%20data/Super%20Metroid/   <-- zomg yes
 https://wiki.metroidconstruction.com/doku.php?id=super_metroid
 
-
+https://wiki.superfamicom.org/uploads/assembly-programming-manual-for-w65c816.pdf
+https://wiki.superfamicom.org/   seems promising in general....
 
