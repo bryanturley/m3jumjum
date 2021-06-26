@@ -30,7 +30,10 @@ func main() {
 		fmt.Printf("'%s' is to small\n", M3_ROM_NAME)
 		return
 	}
-
+	if uint32(len(b)) % 0x8000 != 0 {
+		fmt.Printf("'%s' is not a multiple of 0x8000\n", M3_ROM_NAME)
+		return
+	}
 	// check for rom header name
 	hdrName := string(b[M3_ROM_HDR_NAME_LOC:M3_ROM_HDR_NAME_LOC + 21])
 	fmt.Printf("header name: '%s'\n", hdrName)
@@ -59,5 +62,20 @@ func main() {
 		<- md5Check
 	} ()
 
-	
+	g := AbsorbGame(b)
+
+	if g == nil {}
 }
+
+
+
+
+func AbsorbGame(rom []byte) (g *Game) {
+	g = new(Game)
+	g.Rom = rom
+	
+	g.AbsorbBank83()
+
+	return
+}
+

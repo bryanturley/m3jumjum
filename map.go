@@ -3,6 +3,8 @@
 package main
 
 
+// fields in rom order. packing likely is not accurate though
+
 
 type RoomStateHdr struct {
 	LvlDataPtr   uint32
@@ -21,7 +23,7 @@ type RoomStateHdr struct {
 	SetupAsmPtr  uint16
 }
 
-// fields in rom order. packing likely is not accurate though
+
 type RoomHdr struct {
 	Ind          uint8
 	Area         uint8
@@ -58,4 +60,20 @@ type Door struct {
 	ScreenY    uint8
 	DistSpawn  uint16
 	DoorAsm    uint16
+}
+
+
+
+// all the game data, that we process
+type Game struct {
+	Rom []byte
+
+	Doors []Door
+}
+
+
+// Bank83 contains FX Data, Door Data, more...
+func (g *Game) AbsorbBank83() {
+	g.Doors = make([]Door, 0, 2048)
+	
 }
